@@ -9,7 +9,7 @@ class TestBibTeXGrammar(unittest.TestCase):
             grammar = f.read()
         
         # Create a parser
-        self.parser = Lark(grammar, start='bibTex', parser='lalr')
+        self.parser = Lark(grammar, start='bibtex', parser='lalr')
     
     def test_article(self):
         """Test parsing a standard article entry."""

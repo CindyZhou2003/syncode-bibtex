@@ -1,0 +1,76 @@
+// BibTeX Grammar for Lark Parser
+// Converted from ANTLR BibTeX grammar
+
+%import common.WS
+%import common.ESCAPED_STRING
+%import common.SIGNED_INT
+
+%ignore WS
+%ignore /%.*/
+
+// String literals with nested braces support
+QUOTED_STRING: /"([^"\\]|\\.)*"/
+BRACED_STRING: /\{([^{}]|\{[^{}]*\})*\}/
+
+INTEGER_LITERAL: SIGNED_INT
+
+// BibTeX identifier (allows underscores, hyphens, and alphanumeric characters)
+IDENTIFIER: /[a-zA-Z_][a-zA-Z0-9_-]*/
+
+// Entry types (case insensitive)
+ARTICLE: /@[aA][rR][tT][iI][cC][lL][eE]/
+BOOK: /@[bB][oO][oO][kK]/
+BOOKLET: /@[bB][oO][oO][kK][lL][eE][tT]/
+INBOOK: /@[iI][nN][bB][oO][oO][kK]/
+INCOLLECTION: /@[iI][nN][cC][oO][lL][lL][eE][cC][tT][iI][oO][nN]/
+INPROCEEDINGS: /@[iI][nN][pP][rR][oO][cC][eE][eE][dD][iI][nN][gG][sS]/
+PROCEEDINGS: /@[pP][rR][oO][cC][eE][eE][dD][iI][nN][gG][sS]/
+MANUAL: /@[mM][aA][nN][uU][aA][lL]/
+MASTERTHESIS: /@[mM][aA][sS][tT][eE][rR][tT][hH][eE][sS][iI][sS]/
+PHDTHESIS: /@[pP][hH][dD][tT][hH][eE][sS][iI][sS]/
+MISC: /@[mM][iI][sS][cC]/
+TECHREPORT: /@[tT][eE][cC][hH][rR][eE][pP][oO][rR][tT]/
+UNPUBLISHED: /@[uU][nN][pP][uU][bB][lL][iI][sS][hH][eE][dD]/
+
+// Main structure
+start: bibtex
+
+bibtex: entry*
+
+// Entries
+entry: article
+     | book
+     | booklet
+     | inbook
+     | incollection
+     | inproceedings
+     | proceedings
+     | manual
+     | mastersthesis
+     | phdthesis
+     | misc
+     | techreport
+     | unpublished
+
+// Common patterns
+key: IDENTIFIER
+value: QUOTED_STRING | BRACED_STRING | INTEGER_LITERAL
+field: key "=" value
+
+// Field list that allows optional trailing comma
+field_list: field ("," field)* [","]
+
+// Entry definitions with flexible field lists
+article: ARTICLE "{" key "," field_list "}"
+book: BOOK "{" key "," field_list "}"
+booklet: BOOKLET "{" key "," field_list "}"
+inbook: INBOOK "{" key "," field_list "}"
+incollection: INCOLLECTION "{" key "," field_list "}"
+inproceedings: INPROCEEDINGS "{" key "," field_list "}"
+proceedings: PROCEEDINGS "{" key "," field_list "}"
+manual: MANUAL "{" key "," field_list "}"
+mastersthesis: MASTERTHESIS "{" key "," field_list "}"
+phdthesis: PHDTHESIS "{" key "," field_list "}"
+misc: MISC "{" key "," field_list "}"
+techreport: TECHREPORT "{" key "," field_list "}"
+unpublished: UNPUBLISHED "{" key "," field_list "}"

@@ -41,3 +41,9 @@ Create a script that:
 ## Deliverables
 - `bibtex.lark` - Your Lark grammar file
 - `bibtex_syncode.py` - Script for SynCode integration
+
+
+# Test
+`/usr/local/bin/python3 -m unittest test.TestBibTeXGrammar.test_provided_examples`
+`/usr/local/bin/python3 test.py`
+`/usr/local/bin/python3 bibtex_syncode.py`
