@@ -3,7 +3,7 @@
 import os
 from syncode import Syncode
 
-# Ensure this points to your V15 grammar file
+# --- Configuration ---
 GRAMMAR_FILE = "bibtex.lark"
 MODEL_NAME = "google/gemma-2-2b-it"
 
@@ -14,9 +14,6 @@ prompts = [
 ]
 
 # --- Few-Shot Prompt ---
-# IMPORTANT: Because we use .format(), all literal braces in the BibTeX
-# examples MUST be escaped by doubling them (e.g., {{ }}).
-# The {user_request} placeholder remains single braces.
 
 FEW_SHOT_TEMPLATE = """You are a research assistant compliant with BibTeX syntax. 
 You MUST generate valid BibTeX entries starting immediately with '@'.
@@ -37,7 +34,6 @@ Assistant:
 def main():
     if not os.path.exists(GRAMMAR_FILE):
         print(f"Error: Grammar file not found at '{GRAMMAR_FILE}'")
-        print("Please make sure 'bibtex.lark' is in the same directory.")
         return
 
     print(f"Initializing SynCode with model: '{MODEL_NAME}' and grammar: '{GRAMMAR_FILE}'")
@@ -49,7 +45,6 @@ def main():
             grammar=GRAMMAR_FILE,
             parser='lalr',
             parse_output_only=True,
-            # INCREASED LIMIT: 2048 tokens allows for multiple, long BibTeX entries.
             max_new_tokens=2048 
         )
     except Exception as e:
@@ -75,7 +70,7 @@ def main():
         ]
 
         try:
-            output = syn_llm.infer(messages)[0]
+            output = syn_llm.infer(messages)[0] # Get the LLM response
             
             print(f"SYNCODE-CONSTRAINED OUTPUT:\n")
             print(output.strip())

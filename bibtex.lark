@@ -12,7 +12,7 @@ BRACED_STRING: /\{([^{}]|\{[^{}]*\})*\}/
 
 INTEGER_LITERAL: SIGNED_INT
 
-// BibTeX identifier (allows underscores, hyphens, and alphanumeric characters)
+// BibTeX identifier
 IDENTIFIER: /[a-zA-Z_][a-zA-Z0-9_-]*/
 
 // Entry types (case insensitive)
@@ -35,7 +35,7 @@ start: bibtex
 
 bibtex: entry*
 
-// Entries
+// Entries(13)
 entry: article
      | book
      | booklet
