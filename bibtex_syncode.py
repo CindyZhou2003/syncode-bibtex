@@ -41,7 +41,7 @@ def main():
     try:
         syn_llm = Syncode(
             model=MODEL_NAME,
-            mode="original",
+            mode="grammar_strict",
             grammar=GRAMMAR_FILE,
             parser='lalr',
             parse_output_only=True,
